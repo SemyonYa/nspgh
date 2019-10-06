@@ -100,8 +100,8 @@ AppAsset::register($this);
                             </div>
                         </div>
                         <div class="nsp-consultant-cart">
-                            <?php $goods_count = (count(Yii::$app->session->get('products')) + count(Yii::$app->session->get('sets'))) ?>
-                            <a href="/product/cart" title="Товаров в корзине: <?= $goods_count ?>">Корзина <b>(<span id="CartCount"><?= $goods_count ?></span></b>)</a>
+                            <?php $goods_count = count(Yii::$app->session->get('products')) + count(Yii::$app->session->get('sets')) ?>
+                            <a href="/product/cart" title="Товаров в корзине: <?= $goods_count ?>">Корзина <b>(<span id="CartCount"><?= $goods_count ?></span>)</b></a>
                         </div>
                     </div>
                 </div> 
@@ -112,6 +112,7 @@ AppAsset::register($this);
                     <?php foreach (\app\models\Category::find()->all() as $nsp_category): ?>
                         <a href="/product/category-products?id=<?= $nsp_category->id ?>" class="<?= ('/product/category-products?id=' . $nsp_category->id === $_SERVER['REQUEST_URI']) ? 'nsp-header-category-active' : '' ?>"><?= $nsp_category->name ?></a>
                     <?php endforeach; ?>
+                    <a href="/set/list" class="<?= ('/set/list' === $_SERVER['REQUEST_URI']) ? 'nsp-header-category-active' : '' ?>">Наборы NSP</a>
                 </div>
                 <div class="col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1 nsp-search">
                     <?php $form = ActiveForm::begin(['action' => '/product/search', 'method' => 'post', 'options' => ['class' => 'nsp-search-form']]); ?>

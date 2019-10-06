@@ -12,9 +12,20 @@ use app\models\Signup;
 use app\models\ContactForm;
 use app\models\Fltr;
 
-class SiteController extends Controller {
+class SiteController extends Controller
+{
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $session = \Yii::$app->session;
+        if ($session->get('products') === null)
+            $session->set('products', []);
+        if ($session->get('sets') === null)
+            $session->set('sets', []);
+    }
 
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -36,7 +47,8 @@ class SiteController extends Controller {
         ];
     }
 
-    public function actions() {
+    public function actions()
+    {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
@@ -48,17 +60,20 @@ class SiteController extends Controller {
         ];
     }
 
-    public function actionIndex() { //actionDesign
+    public function actionIndex()
+    { //actionDesign
         $this->layout = '_empty';
         return $this->render('design');
     }
 
-    public function actionIndex2() {
+    public function actionIndex2()
+    {
         $this->layout = '_first';
         return $this->render('index2');
     }
 
-    public function actionSignup() {
+    public function actionSignup()
+    {
         $model = new Signup();
         if ($model->load(Yii::$app->getRequest()->post())) {
             if ($user = $model->signup()) {
@@ -67,11 +82,12 @@ class SiteController extends Controller {
         }
 
         return $this->render('signup', [
-                    'model' => $model,
+            'model' => $model,
         ]);
     }
 
-    public function actionLogin() {
+    public function actionLogin()
+    {
         if (!Yii::$app->getUser()->isGuest) {
             return $this->goHome();
         }
@@ -81,25 +97,28 @@ class SiteController extends Controller {
             return $this->goBack();
         } else {
             return $this->render('login', [
-                        'model' => $model,
+                'model' => $model,
             ]);
         }
     }
 
-    public function actionLogout() {
+    public function actionLogout()
+    {
         Yii::$app->user->logout();
 
         return $this->goHome();
     }
 
-    public function actionFake() {
+    public function actionFake()
+    {
         $f = Fltr::findOne(2);
         $ps = $f->products;
         return $this->render('fake', compact('f', 'ps'));
     }
 
-    public function actionContact() {
-        $this->layout = '_contact';
+    public function actionContact()
+    {
+//        $this->layout = '_contact';
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
@@ -108,21 +127,27 @@ class SiteController extends Controller {
         return $this->render('contact', compact('model'));
     }
 
-    public function actionMailer($subject = NULL, $html_body = NULL) {
+    public function actionMailer($subject = NULL, $html_body = NULL)
+    {
         \app\models\Order::SendMail();
     }
 
-    public function actionDelivery() {
+    public function actionDelivery()
+    {
 
         return $this->render('delivery');
     }
-    public function actionTest() {
-        
+
+    public function actionTest()
+    {
+
         return $this->render('test');
     }
-    public function actionVideo() {
+
+    public function actionVideo()
+    {
         $vs = \app\models\Video::find()->all();
-        
+
         return $this->render('video', compact('vs'));
     }
 }

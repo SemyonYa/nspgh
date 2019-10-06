@@ -1,3 +1,7 @@
+<?php
+$this->title = 'Диагностика здоровья';
+?>
+
 <div class="nsp-test">
     <h1>Тест</h1>
     <table>

@@ -31,7 +31,7 @@
                         <tr>
                             <td><?= $i ?></td>
                             <td>
-                                <img src="<?= \Yii::$app->imagemanager->getImagePath($s->img_id, '100', '100') ?>" class="" />
+                                <img src="<?= \Yii::$app->imagemanager->getImagePath($s->img_id, '100', '100', 'inset') ?>" class="" />
                             </td>
                             <td>
                                 <a href="/set/view?id=<?= $s->id ?>"><?= $s->name ?></a> 

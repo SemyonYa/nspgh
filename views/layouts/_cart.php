@@ -99,7 +99,7 @@ AppAsset::register($this);
                         </div>
                         <div class="nsp-consultant-cart">
                             <?php $goods_count = (count(Yii::$app->session->get('products')) + count(Yii::$app->session->get('sets'))) ?>
-                            <a href="/product/cart" title="Товаров в корзине: <?= $goods_count ?>">Корзина <b>(<span id="CartCount"><?= $goods_count ?></span></b>)</a>
+                            <a href="/product/cart" title="Товаров в корзине: <?= $goods_count ?>">Корзина <b>(<span id="CartCount"><?= $goods_count ?></span>)</b></a>
                         </div>
                     </div>
                 </div> 

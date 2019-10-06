@@ -2,21 +2,28 @@
 
 namespace app\controllers;
 
-class SetController extends \yii\web\Controller {
+class SetController extends \yii\web\Controller
+{
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $session = \Yii::$app->session;
+        if ($session->get('products') === null)
+            $session->set('products', []);
+        if ($session->get('sets') === null)
+            $session->set('sets', []);
+    }
 
     public $layout = '_catalog';
 
-    public function actionList() {
-        $this->layout = '_empty';
+    public function actionList()
+    {
         $sets = \app\models\Set::find()->all();
         return $this->render('list', compact('sets'));
     }
 
-//    public function actionView($id) {
-//        $model = \app\models\Set::findOne($id);
-//        return $this->render('view', compact('model'));
-//    }
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $set = \app\models\Set::findOne($id);
         $order_modal = new \app\models\OrderModal();
         if ($order_modal->load(\Yii::$app->request->post())) {
@@ -45,18 +52,19 @@ class SetController extends \yii\web\Controller {
                         }
                     }
                 }
-//                var_dump($order_modal);
-//                die;
             }
         }
-        return $this->render('view', compact('set', 'order_modal'));
+        $cart_sets = \Yii::$app->session->get('sets');
+        $set_in_cart = isset($cart_sets[$id]);
+        return $this->render('view', compact('set', 'order_modal', 'set_in_cart'));
     }
 
-    public function actionSession($id) {
+    public function actionSession($id)
+    {
         $session = \Yii::$app->session;
         $sets = $session->get('sets');
         if (isset($sets[$id])) {
-            $sets[$id] ++;
+            $sets[$id]++;
         } else {
             $sets[$id] = 1;
         }
@@ -64,7 +72,8 @@ class SetController extends \yii\web\Controller {
         return count($session['sets']) + count($session['products']);
     }
 
-    public function actionChange($id, $q) {
+    public function actionChange($id, $q)
+    {
         $session = \Yii::$app->session;
         $sets = $session['sets'];
         $sets[$id] = $q;
@@ -72,7 +81,8 @@ class SetController extends \yii\web\Controller {
         return $this->redirect('/product/cart');
     }
 
-    public function actionRemove($id) {
+    public function actionRemove($id)
+    {
         $session = \Yii::$app->session;
         $sets = $session['sets'];
         unset($sets[$id]);
@@ -80,7 +90,8 @@ class SetController extends \yii\web\Controller {
         return $this->redirect('/product/cart');
     }
 
-    public function actionSetData($id) {
+    public function actionSetData($id)
+    {
         $set = \app\models\Set::findOne($id);
         $set_data = $set->id . '???_???' . $set->name;
         return $set_data;

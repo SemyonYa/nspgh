@@ -3,7 +3,7 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
-$this->title = 'Прайс-лист | ' . $this->title;
+$this->title = 'Прайс-лист';
 ?>
 <div class="col-xs-12 col-md-10 col-md-offset-1">
     <h1><?= $this->title ?></h1>
@@ -11,7 +11,7 @@ $this->title = 'Прайс-лист | ' . $this->title;
         <input type="text" name="data" class="form-control" placeholder="Фильтровать список..." autocomplete="off" oninput="FilteringPriceList(event)" />
     </div>
     <h3 class="nsp-price-h3">Наборы</h3>
-    <table class="col-xs-12">
+    <table class="col-xs-12 nsp-price-table">
         <?php foreach ($sets as $s): ?>
             <tr class="nsp-price-list-item">
                 <td><?= $s->art ?></td>
@@ -35,7 +35,7 @@ $this->title = 'Прайс-лист | ' . $this->title;
     </table>
     <?php foreach ($categories as $c): ?>
         <h3 class="nsp-price-h3"><?= $c->name ?></h3>
-        <table class="col-xs-12">
+        <table class="col-xs-12 nsp-price-table">
             <?php foreach ($products as $p): ?>
                 <?php if ($p->category_id === $c->id): ?>
                     <tr class="nsp-price-list-item">

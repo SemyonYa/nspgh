@@ -2,17 +2,29 @@
 
 namespace app\controllers;
 
-class ProductController extends \yii\web\Controller {
+class ProductController extends \yii\web\Controller
+{
+    public function __construct($id, $module, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $session = \Yii::$app->session;
+        if ($session->get('products') === null)
+            $session->set('products', []);
+        if ($session->get('sets') === null)
+            $session->set('sets', []);
+    }
 
     public $layout = '_catalog';
 
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $categories = \app\models\Category::find()->all();
         $products = \app\models\Product::find()->all();
         return $this->render('index', compact('products', 'categories'));
     }
 
-    public function actionView($id) {
+    public function actionView($id)
+    {
         $product = \app\models\Product::findOne($id);
         $order_modal = new \app\models\OrderModal();
         $new_comment = new \app\models\NewComment();
@@ -57,28 +69,36 @@ class ProductController extends \yii\web\Controller {
                 }
             }
         }
-        return $this->render('view', compact('product', 'order_modal', 'new_comment'));
+        $cart_products = \Yii::$app->session->get('products');
+        $product_in_cart = isset($cart_products[$id]);
+//        var_dump($product_in_cart);
+//        die;
+        return $this->render('view', compact('product', 'order_modal', 'new_comment', 'product_in_cart'));
     }
 
-    public function actionCatalog() {
+    public function actionCatalog()
+    {
         $this->layout = '_empty';
         $categories = \app\models\Category::find()->all();
         return $this->render('catalog', compact('categories'));
     }
 
-    public function actionCategoryProducts($id) {
+    public function actionCategoryProducts($id)
+    {
         $category = \app\models\Category::findOne($id);
         $filters = \app\models\Fltr::findAll(['category_id' => $category->id]);
         return $this->render('category-products', compact('category', 'filters'));
     }
 
-    public function actionProductsAjax($cat_id) {
+    public function actionProductsAjax($cat_id)
+    {
         $this->layout = '_empty';
         $products = \app\models\Product::findAll(['category_id' => $cat_id]);
         return $this->render('products-ajax', compact('products'));
     }
 
-    public function actionProductsSearchAjax($data) {
+    public function actionProductsSearchAjax($data)
+    {
         $this->layout = '_empty';
         $data_r = explode('___', $data);
         unset($data_r[count($data_r) - 1]);
@@ -104,7 +124,8 @@ class ProductController extends \yii\web\Controller {
         return $this->render('products-ajax', compact('products'));
     }
 
-    public function actionSearch() {
+    public function actionSearch()
+    {
         $categories = \app\models\Category::find()->all();
         $products = [];
         $message = '';
@@ -119,13 +140,15 @@ class ProductController extends \yii\web\Controller {
         return $this->render('search-result', compact('products', 'categories', 'message'));
     }
 
-    public function actionSearchAjax($name) {
+    public function actionSearchAjax($name)
+    {
         $this->layout = '_empty';
         $quick_products = \app\models\Product::find()->where(['like', 'name', $name])->all();
         return $this->render('search-result-ajax', compact('quick_products'));
     }
 
-    public function actionCart() {
+    public function actionCart()
+    {
         $this->layout = '_cart';
         $this->CheckCookies();
         $session = \Yii::$app->session;
@@ -134,7 +157,7 @@ class ProductController extends \yii\web\Controller {
         $product_ids = NULL;
         $products = NULL;
         if ($session_products == NULL) {
-            
+
         } else {
             foreach ($session_products as $key => $value) {
                 $i++;
@@ -147,7 +170,7 @@ class ProductController extends \yii\web\Controller {
         $set_ids = NULL;
         $sets = NULL;
         if ($session_sets == NULL) {
-            
+
         } else {
             foreach ($session_sets as $key => $value) {
                 $j++;
@@ -158,14 +181,16 @@ class ProductController extends \yii\web\Controller {
         return $this->render('cart', compact('products', 'session_products', 'sets', 'session_sets'));
     }
 
-    public function actionCleanCart() {
+    public function actionCleanCart()
+    {
         $session = \Yii::$app->session;
         unset($session['products']);
         unset($session['sets']);
         return $this->redirect('/product/cart');
     }
 
-    public function CheckCookies() {
+    public function CheckCookies()
+    {
         $session = \Yii::$app->session;
 
         $products = $session->get('products');
@@ -189,11 +214,12 @@ class ProductController extends \yii\web\Controller {
         $session['sets'] = $sets;
     }
 
-    public function actionSession($id) {
+    public function actionSession($id)
+    {
         $session = \Yii::$app->session;
         $products = $session->get('products');
         if (isset($products[$id])) {
-            $products[$id] ++;
+            $products[$id]++;
         } else {
             $products[$id] = 1;
         }
@@ -201,14 +227,16 @@ class ProductController extends \yii\web\Controller {
         return count($session['sets']) + count($session['products']);
     }
 
-    public function actionSessionView() {
+    public function actionSessionView()
+    {
         $session = \Yii::$app->session;
         $sets = $session->get('sets');
         return serialize($sets);
 //        var_dump($products);
     }
 
-    public function actionChange($id, $q) {
+    public function actionChange($id, $q)
+    {
         $session = \Yii::$app->session;
         $products = $session['products'];
         $products[$id] = $q;
@@ -216,7 +244,8 @@ class ProductController extends \yii\web\Controller {
         return $this->redirect('/product/cart');
     }
 
-    public function actionRemove($id) {
+    public function actionRemove($id)
+    {
         $session = \Yii::$app->session;
         $products = $session['products'];
         unset($products[$id]);
@@ -224,7 +253,8 @@ class ProductController extends \yii\web\Controller {
         return $this->redirect('/product/cart');
     }
 
-    public function actionForm() {
+    public function actionForm()
+    {
         $this->layout = '_empty';
         $order_cart = new \app\models\OrderCart();
         if ($order_cart->load(\Yii::$app->request->post())) {
@@ -278,8 +308,9 @@ class ProductController extends \yii\web\Controller {
         return $this->render('form', compact('order_cart'));
     }
 
-    public function actionPriceList() {
-        $this->layout = '_price';
+    public function actionPriceList()
+    {
+        $this->layout = '_cart';
         $currency = \app\models\Product::Currency()->value;
         $session = \Yii::$app->session;
         $categories = \app\models\Category::find()->all();
@@ -350,14 +381,16 @@ class ProductController extends \yii\web\Controller {
         return $this->render('price-list', compact('categories', 'products', 'products_r', 'sets', 'sets_r', 'order_price_modal', 'order_price_modal2', 'currency'));
     }
 
-    public function actionProdData($id) {
+    public function actionProdData($id)
+    {
         $prod = \app\models\Product::findOne($id);
         $prod_data = $prod->id . '???_???' . $prod->name;
         return $prod_data;
     }
 
-    public function actionCurrencyToday() {
-        $content = file_get_contents('http://nsp.com.ru');
+    public function actionCurrencyToday()
+    {
+        $content = file_get_contents('https://nsp.com.ru');
         $position = strpos($content, 'у.е.');
         $content = substr($content, $position, 21);
         $content = str_replace('у.е. = ', '', $content);

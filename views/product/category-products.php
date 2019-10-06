@@ -1,8 +1,4 @@
-<?php
 
-use yii\widgets\ActiveForm;
-use yii\helpers\Html;
-?>
 <?php $this->title = $category->name ?>
 
 <div class="col-xs-12 col-sm-10 col-sm-offset-1 nsp-products">
@@ -38,19 +34,16 @@ use yii\helpers\Html;
         </div>
         <!--ACCORDEON END-->
     </div>
-    <div class="col-xs-12 col-sm-9">
-        <?php if (Yii::$app->request->url === '/product/category-products?id=1'): ?>
-            <div class="col-xs-12" id="NspSetList">NSP</div>
-        <?php endif; ?>
-        <div class="col-xs-12" id="NspProductList"></div>
+    <div class="col-xs-12 col-sm-9" id="NspProductList">
+<!--        <div class="col-xs-12"></div>-->
     </div>
 </div>
 <script>
     $(document).ready(function () {
         LoadProductList(<?= $category->id ?>);
-        var exist = $('#NspSetList');
-        if (exist.text() !== '') {
-            LoadSetList();
-        }
+        // var exist = $('#NspSetList');
+        // if (exist.text() !== '') {
+        //     LoadSetList();
+        // }
     });
 </script>

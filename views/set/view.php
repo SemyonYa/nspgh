@@ -31,7 +31,7 @@ if (!is_null($set->galery_3)) {
 }
 ?>
 <div class="col-xs-12 col-md-10 col-md-offset-1 nsp-product">
-    <h3><?= $set->name ?></h3>    
+    <h3><?= $set->name ?></h3>
     <div class="col-xs-12 nsp-product-description">
         <div class="col-xs-12 nsp-product-description-ti">
             <div class="nsp-product-description-txt">
@@ -43,7 +43,7 @@ if (!is_null($set->galery_3)) {
                         <?php endif; ?>
                     </h3></b>
             </div>
-            <div class="nsp-product-description-img" style="background: url('<?= \Yii::$app->imagemanager->getImagePath($set->img_id, '400', '400', 'inset') ?>'); background-size: contain; background-position: center center; background-repeat: no-repeat">
+            <div class="nsp-product-description-img" style="background-image: url('<?= \Yii::$app->imagemanager->getImagePath($set->img_id, '400', '400', 'inset') ?>')">
             </div>
         </div>
         <!--</div>-->
@@ -109,8 +109,12 @@ if (!is_null($set->galery_3)) {
                 </div>
             </div>
             <div class="col-xs-12 nsp-product-description-buy">
-                <button class="btn btn-primary nsp-btn-buying" data-toggle="modal" data-target="#myModal">Быстрая покупка</button> <!--onclick="alert('Модальное окно покупки')" -->
+                <button class="btn btn-primary nsp-btn-buying" data-toggle="modal" data-target="#myModal">Быстрая покупка</button>
+                <?php if ($set_in_cart): ?>
+                <button class="btn btn-primary nsp-btn-buying">Товар уже в корзине</button>
+                <?php else: ?>
                 <button id="ToCart" class="btn btn-primary nsp-btn-buying" onclick="SetToCart(<?= $set->id ?>)">В корзину</button>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -122,7 +126,7 @@ if (!is_null($set->galery_3)) {
     <?php endif; ?>
 </div>
 
-<!-- Модаль -->  
+<!-- Модаль -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -132,12 +136,12 @@ if (!is_null($set->galery_3)) {
             </div>
             <div class="modal-body">
                 <?php $form2 = ActiveForm::begin(['id' => 'Order']); ?>
-                <?= $form2->field($order_modal, 'fio')->textInput(['maxlength' => true, 'placeholder' => 'Ф.И.О.']) ?>  
-                <?= $form2->field($order_modal, 'email')->textInput(['maxlength' => true]) ?>  
-                <?= $form2->field($order_modal, 'phone')->textInput(['maxlength' => true]) ?>  
-                <?= $form2->field($order_modal, 'good')->textInput(['maxlength' => true, 'value' => $set->name, 'disabled' => TRUE]) ?>  
-                <?= $form2->field($order_modal, 'quantity')->textInput(['type' => 'number', 'value' => 1]) ?>  
-                <?= $form2->field($order_modal, 'address')->textarea(['rows' => 3]) ?>  
+                <?= $form2->field($order_modal, 'fio')->textInput(['maxlength' => true, 'placeholder' => 'Ф.И.О.']) ?>
+                <?= $form2->field($order_modal, 'email')->textInput(['maxlength' => true]) ?>
+                <?= $form2->field($order_modal, 'phone')->textInput(['maxlength' => true]) ?>
+                <?= $form2->field($order_modal, 'good')->textInput(['maxlength' => true, 'value' => $set->name, 'disabled' => TRUE]) ?>
+                <?= $form2->field($order_modal, 'quantity')->textInput(['type' => 'number', 'value' => 1]) ?>
+                <?= $form2->field($order_modal, 'address')->textarea(['rows' => 3]) ?>
                 <?= $form2->field($order_modal, 'good_id')->hiddenInput(['value' => $set->id]) ?>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
                 <?= Html::submitButton('Купить', ['class' => 'btn btn-primary']) ?>

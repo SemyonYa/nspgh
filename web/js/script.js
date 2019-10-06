@@ -50,7 +50,7 @@ function ProdToCart(id) {
         url: '/product/session?id=' + id
     }).done(function (msg) {
         $('#CartCount').html(msg);
-        $('#ToCart').html('В корзине!!!');
+        $('#ToCart').html('Товар уже в корзине');
     });
 }
 function SetToCart(id) {
@@ -59,7 +59,7 @@ function SetToCart(id) {
         url: '/set/session?id=' + id
     }).done(function (msg) {
         $('#CartCount').html(msg);
-        $('#ToCart').html('В корзине!!!');
+        $('#ToCart').html('Товар уже в корзине');
     });
 }
 function ToCartPrice(id) {

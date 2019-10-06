@@ -4,11 +4,11 @@ use yii\captcha\Captcha;
 use yii\helpers\Html;
 ?>
 <div class="col-xs-12 nsp-contact">
-    <div class="col-xs-12 visible-xs nsp-contact-logo">
-        <a href="/">
-            <img style="opacity: 0" src="/web/images/logo-full-600.png" />
-        </a>
-    </div>
+<!--    <div class="col-xs-12 visible-xs nsp-contact-logo">-->
+<!--        <a href="/">-->
+<!--            <img style="opacity: 0" src="/web/images/logo-full-600.png" />-->
+<!--        </a>-->
+<!--    </div>-->
     <h1>Контакты</h1>
     
     <div class="col-xs-12 nsp-contact-list">
@@ -33,11 +33,11 @@ use yii\helpers\Html;
         <div class="nsp-contact-social-item"><a href="https://fb.com"><img src="/web/images/fb.png"></a></div>
         <div class="nsp-contact-social-item"><a href="https://instagram.com"><img src="/web/images/insta.png"></a></div>
     </div>
-    <div class="col-xs-12 nsp-contact-logo">
-        <a href="/">
-            <img style="opacity: 0" src="/web/images/logo-full-600.png" />
-        </a>
-    </div>
+<!--    <div class="col-xs-12 nsp-contact-logo">-->
+<!--        <a href="/">-->
+<!--            <img style="opacity: 0" src="/web/images/logo-full-600.png" />-->
+<!--        </a>-->
+<!--    </div>-->
 </div>
 
 

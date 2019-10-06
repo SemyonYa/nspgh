@@ -4,7 +4,7 @@
                 <a href="/product/view?id=<?= $p->id ?>">
                     <div class="col-xs-12 nsp-product-list-item-inner">
                         <span><?= $p->name ?> <br />(<?= $p->name_eng ?>)</span>
-                        <div class="nsp-product-list-item-inner-img" style="background: url('<?= \Yii::$app->imagemanager->getImagePath($p->img_id, '300', '300', 'inset') ?>'); background-size: contain; background-position: center center; background-repeat: no-repeat"></div>
+                        <div class="nsp-product-list-item-inner-img" style="background-image: url('<?= \Yii::$app->imagemanager->getImagePath($p->img_id, '300', '300', 'inset') ?>');"></div>
                         <!-- <img src="<?php //echo \Yii::$app->imagemanager->getImagePath($p->img_id, '200', '200', 'outbound') ?>" /> -->
                         <div class="text-center nsp-product-list-item-inner-text ">
                             <b><?= ($p->CurrencyPrice()) ?>&#8381;</b> 
